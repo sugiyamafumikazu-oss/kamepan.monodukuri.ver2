@@ -1,0 +1,591 @@
+<!-- Chosen Palette: Warm Bakery (Amber/Orange/Rose) - Grounded in Amber-50 for dough-like background, with Amber-700 for crust/main text, and Rose-500 accents for 'Mentaiko'. -->
+
+<!-- Application Structure Plan: Designed as a 'Strategic Narrative Dashboard' to visualize the Business Plan for the Monodzukuri Subsidy.
+1. Hero & Profile: Establishes identity (Kamepan, Founded 1952 - 74 years history) and the 'Anchor Product' (Mentai Madonna) context.
+2. The Bottleneck Simulation (Interactive Core): Visualizes the specific constraint: Current limit 750 units vs Demand. Target 1200 units.
+3. Investment Breakdown: Lists the specific equipment for "Tachibana Store" (Oven, Dough System, Storage) totaling ~47M JPY.
+4. Growth Trajectory: Financial projection + The future roadmap to 1400 units/day via technical guidance and channel expansion.
+5. Subsidy Calculator: Functional tool for grant estimation.
+-->
+
+<!-- Visualization & Content Choices:
+1. Product Focus: HTML/CSS card for 'Mentai Madonna'.
+2. Capacity Chart (Chart.js Bar):
+   - Before: Limit at 750 units.
+   - After: 1200 units (Goal).
+   - Future: 1400 units (Vision).
+3. Investment Table: Detailed breakdown of the High-performance Oven, Dough Production, and Storage Systems.
+4. Growth Chart (Chart.js Line): Sales & Wage growth correlation.
+-->
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>有限会社亀屋（かめぱん）ものづくり補助金 事業計画ビジュアライザー</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@2.1.0"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans JP', sans-serif; background-color: #fff8f1; color: #431407; }
+        .chart-container { 
+            position: relative; 
+            width: 100%; 
+            max-width: 800px; 
+            margin-left: auto; 
+            margin-right: auto; 
+            height: 300px; 
+            max-height: 400px; 
+        }
+        @media (min-width: 768px) { .chart-container { height: 350px; } }
+        .glass-panel { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); border: 1px solid #fed7aa; }
+        .section-title { position: relative; display: inline-block; }
+        .section-title::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 60%; height: 4px; background-color: #f43f5e; border-radius: 2px; }
+        .kame-shadow { box-shadow: 4px 4px 0px 0px #fbbf24; }
+        .highlight-text { background: linear-gradient(120deg, #fef3c7 0%, #fef3c7 100%); box-shadow: inset 0 -0.5em 0 0 #fcd34d; }
+    </style>
+</head>
+<body class="antialiased selection:bg-rose-200 selection:text-rose-900">
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-white/95 border-b border-orange-200 shadow-sm backdrop-blur">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center space-x-2">
+                    <span class="text-2xl">🐢</span>
+                    <span class="font-bold text-xl text-orange-800 tracking-tight">有限会社亀屋 事業計画</span>
+                </div>
+                <div class="hidden md:flex space-x-8 text-sm font-medium text-orange-900">
+                    <a href="#summary" class="hover:text-rose-600 transition-colors">企業概要</a>
+                    <a href="#challenge" class="hover:text-rose-600 transition-colors">課題と解決</a>
+                    <a href="#investment" class="hover:text-rose-600 transition-colors">設備投資計画</a>
+                    <a href="#growth" class="hover:text-rose-600 transition-colors">成長予測</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="bg-gradient-to-br from-orange-50 to-amber-100 py-12 md:py-20 border-b border-orange-200">
+        <div class="max-w-5xl mx-auto px-4 text-center">
+            <span class="inline-block py-1 px-3 rounded-full bg-rose-100 text-rose-700 text-sm font-bold mb-4 border border-rose-200">ものづくり補助金 第22次公募対応</span>
+            <h1 class="text-3xl md:text-5xl font-bold mb-6 leading-tight text-orange-950">
+                創業74年の伝統と<span class="text-rose-600">生産革新</span><br>
+                「立花店」設備導入で需要に応える
+            </h1>
+            <p class="text-lg md:text-xl text-orange-800/80 max-w-2xl mx-auto mb-10">
+                向島店での成功モデルを立花店へ。現状750本/日の限界を突破し、<br>
+                1,200本/日の安定供給体制を構築します。
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="#challenge" class="bg-rose-600 text-white px-8 py-3 rounded-lg font-bold shadow-lg hover:bg-rose-700 transition-all transform hover:-translate-y-1 kame-shadow">
+                    生産性革命の全貌を見る
+                </a>
+                <div class="bg-white px-6 py-3 rounded-lg font-bold text-orange-800 border border-orange-200 shadow-sm flex items-center gap-2">
+                    <span>🏢 1952年創業 (74年目)</span>
+                </div>
+                <div class="bg-white px-6 py-3 rounded-lg font-bold text-orange-800 border border-orange-200 shadow-sm flex items-center gap-2">
+                    <span>📍 実施場所：立花店</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Wrapper -->
+    <main class="max-w-6xl mx-auto px-4 py-12 space-y-20">
+
+        <!-- SECTION 1: Company & Product Context -->
+        <section id="summary" class="scroll-mt-24">
+            <h2 class="text-2xl font-bold mb-6 section-title">1. 事業背景：750本の限界点</h2>
+            <div class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-orange-100 grid md:grid-cols-2 gap-8 items-center">
+                
+                <!-- Text Context -->
+                <div class="space-y-4">
+                    <p class="text-gray-700 leading-relaxed">
+                        1952年創業、今年で74年目を迎える有限会社亀屋。
+                        過去、向島店においてものづくり補助金を活用し生産性を向上させましたが、
+                        現在の主力拠点である<span class="font-bold text-orange-700">立花店</span>においては、
+                        旧来の設備能力が限界に達しています。
+                    </p>
+                    <p class="text-gray-700 leading-relaxed">
+                        特に看板商品「明太マドンナ」を含む製造能力は、
+                        生地製造・焼成能力あわせて<span class="font-bold text-rose-600 text-lg">750本/日が物理的限界</span>となっており、
+                        連日発生する完売・品切れによる機会損失が経営上の最大課題です。
+                    </p>
+                    <div class="bg-orange-50 p-4 rounded-lg border-l-4 border-orange-400">
+                        <h4 class="font-bold text-orange-900 mb-1">本事業の目標</h4>
+                        <ul class="list-disc list-inside text-sm text-orange-800 space-y-1">
+                            <li>立花店への高性能設備（オーブン・生地・保管）導入</li>
+                            <li>生産能力を750本→<span class="font-bold">1,200本/日</span>へ拡大</li>
+                            <li>将来的な技術指導により<span class="font-bold">1,400本/日</span>体制と販路拡大を目指す</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Product Visualization (CSS Art/Card) -->
+                <div class="bg-gradient-to-br from-orange-100 to-rose-50 rounded-xl p-8 flex flex-col items-center justify-center text-center relative overflow-hidden group border border-rose-100 shadow-sm">
+                    <div class="absolute top-0 right-0 bg-rose-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg">Current Limit: 750</div>
+                    
+                    <!-- Visual Representation of the Bread -->
+                    <div class="w-48 h-20 bg-[#eecfa1] rounded-full shadow-lg relative mb-4 transform group-hover:scale-105 transition-transform duration-300 border-2 border-[#d4a373] flex items-center justify-center overflow-hidden">
+                        <div class="w-full h-2 bg-[#f43f5e]/60 absolute top-1/2 left-0 transform -translate-y-1/2 blur-sm"></div> <!-- Mentaiko filling -->
+                        <span class="text-4xl relative z-10 drop-shadow-sm">🥖</span>
+                    </div>
+                    
+                    <h3 class="text-2xl font-bold text-gray-800 mb-1">明太マドンナ & 主力パン</h3>
+                    <p class="text-rose-600 font-bold mb-2">需要過多 ⚠️ 立花店ボトルネック</p>
+                    <div class="flex gap-2 text-xs">
+                        <span class="bg-white/80 px-2 py-1 rounded border border-gray-200">現状: 750本</span>
+                        <span class="text-gray-400">→</span>
+                        <span class="bg-rose-100 text-rose-700 px-2 py-1 rounded border border-rose-200 font-bold">目標: 1,200本</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: Interactive Bottleneck Simulation -->
+        <section id="challenge" class="scroll-mt-24">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold mb-2 section-title">2. 生産能力の飛躍的拡大</h2>
+                <p class="text-gray-600 mt-4">
+                    立花店への設備導入により、製造限界をどのように突破し、将来の販路拡大につなげるかをシミュレーションします。
+                </p>
+            </div>
+
+            <div class="glass-panel rounded-2xl p-6 md:p-8 shadow-lg">
+                <!-- Controls -->
+                <div class="flex justify-center gap-4 mb-8">
+                    <button id="btn-current" class="px-6 py-3 rounded-full font-bold bg-gray-600 text-white hover:bg-gray-700 transition-all shadow-md">
+                        現状（750本限界）
+                    </button>
+                    <button id="btn-future" class="px-6 py-3 rounded-full font-bold bg-rose-100 text-rose-600 hover:bg-rose-200 transition-all">
+                        導入後（1200本体制）
+                    </button>
+                    <button id="btn-vision" class="px-6 py-3 rounded-full font-bold bg-blue-50 text-blue-600 hover:bg-blue-100 transition-all border border-blue-200">
+                        将来像（1400本+販路拡大）
+                    </button>
+                </div>
+
+                <!-- Chart Container -->
+                <div class="grid lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-2">
+                        <div class="bg-white rounded-xl p-4 shadow-inner border border-gray-100">
+                            <div class="chart-container">
+                                <canvas id="bottleneckChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Description Panel -->
+                    <div class="flex flex-col justify-center space-y-4">
+                        <div id="status-panel" class="bg-white rounded-xl p-6 border-l-8 border-gray-400 shadow-sm transition-all duration-300">
+                            <h3 id="status-title" class="text-xl font-bold text-gray-800 mb-2">現状：750本の壁</h3>
+                            <p id="status-desc" class="text-gray-600 text-sm leading-relaxed mb-4">
+                                向島店の成功とは対照的に、立花店では旧式設備のため<span class="font-bold">日産750本</span>が物理的限界です。顧客の需要（推定1,000本以上）に対し、製造が追いつかず、夕方前の完売など機会損失が常態化しています。
+                            </p>
+                            <div class="flex items-center gap-3 pt-4 border-t border-gray-100">
+                                <div class="text-center">
+                                    <span class="block text-xs text-gray-500">生産能力</span>
+                                    <span id="metric-production" class="text-xl font-bold text-gray-800">750本/日</span>
+                                </div>
+                                <div class="text-gray-300">→</div>
+                                <div class="text-center">
+                                    <span class="block text-xs text-gray-500">需給ギャップ</span>
+                                    <span id="metric-gap" class="text-xl font-bold text-rose-600">不足</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Insight Badge -->
+                        <div id="insight-badge" class="bg-amber-100 text-amber-800 text-xs font-bold px-4 py-2 rounded-lg flex items-center gap-2">
+                            <span>💡</span>
+                            <span>立花店の設備刷新が急務です</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: Investment Details -->
+        <section id="investment" class="scroll-mt-24">
+            <h2 class="text-2xl font-bold mb-6 section-title">3. 導入設備詳細（立花店）</h2>
+            <p class="text-gray-600 mb-6">
+                生産能力を1,200本へ引き上げるための「高性能オーブン」「生地製造」「保管」の3大システム導入。
+                総額 4,785万円の投資計画です。
+            </p>
+
+            <div class="overflow-hidden rounded-xl border border-orange-200 shadow-sm bg-white">
+                <table class="min-w-full divide-y divide-orange-200">
+                    <thead class="bg-orange-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-4 text-left text-xs font-bold text-orange-800 uppercase tracking-wider">設備システム名称</th>
+                            <th scope="col" class="px-6 py-4 text-left text-xs font-bold text-orange-800 uppercase tracking-wider hidden md:table-cell">導入効果・役割</th>
+                            <th scope="col" class="px-6 py-4 text-right text-xs font-bold text-orange-800 uppercase tracking-wider">見積金額（税抜）</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-orange-100">
+                        <tr class="hover:bg-orange-50/50 transition-colors">
+                            <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">
+                                <span class="block text-lg">高性能オーブンシステム</span>
+                                <span class="text-xs text-gray-500">トーラックスオーブン等</span>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-600 hidden md:table-cell">
+                                焼成能力の大幅強化。多品種大量焼成を実現し、750本の壁を突破する核心設備。
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-right font-mono text-gray-700">¥17,380,000</td>
+                        </tr>
+                        <tr class="hover:bg-orange-50/50 transition-colors">
+                            <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">
+                                <span class="block text-lg">生地製造・保管システム</span>
+                                <span class="text-xs text-gray-500">プレハブ冷箱・ドゥコン等</span>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-600 hidden md:table-cell">
+                                生地の安定供給とオーバーナイト製法による効率化。最大1400本体制への土台。
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-right font-mono text-gray-700">¥15,950,000</td>
+                        </tr>
+                        <tr class="hover:bg-orange-50/50 transition-colors">
+                            <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">
+                                <span class="block text-lg">その他製造付帯設備</span>
+                                <span class="text-xs text-gray-500">厨房機器・改修工事一式</span>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-600 hidden md:table-cell">
+                                立花店内の動線最適化、衛生環境向上、機器設置工事。
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-right font-mono text-gray-700">¥5,500,000</td>
+                        </tr>
+                         <tr class="hover:bg-orange-50/50 transition-colors">
+                            <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">
+                                <span class="block text-lg">附帯工事・機器類</span>
+                                <span class="text-xs text-gray-500">設置・調整費等</span>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-600 hidden md:table-cell">
+                                機器導入に伴う付帯設備費用。
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-right font-mono text-gray-700">¥9,025,000</td>
+                        </tr>
+                        <tr class="bg-orange-100/50">
+                            <td class="px-6 py-4 whitespace-nowrap font-bold text-orange-900">合計</td>
+                            <td class="px-6 py-4 hidden md:table-cell"></td>
+                            <td class="px-6 py-4 whitespace-nowrap text-right font-bold text-xl text-rose-600 font-mono">¥47,855,000</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- SECTION 4: Growth Projection Chart -->
+        <section id="growth" class="scroll-mt-24">
+            <h2 class="text-2xl font-bold mb-6 section-title">4. 5ヵ年事業計画（成長シミュレーション）</h2>
+            <p class="text-gray-600 mb-6">
+                1,200本体制の確立により売上を拡大。さらに技術指導を通じて品質を高め、将来的な1,400本体制と販路拡大を実現します。
+            </p>
+
+            <div class="grid lg:grid-cols-3 gap-8">
+                <!-- Line Chart -->
+                <div class="lg:col-span-2 bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                    <div class="chart-container">
+                        <canvas id="growthChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- KPI Cards -->
+                <div class="space-y-4">
+                    <div class="bg-gradient-to-r from-emerald-50 to-teal-50 p-6 rounded-xl border border-emerald-100">
+                        <h4 class="text-emerald-800 font-bold mb-1">将来目標</h4>
+                        <div class="text-3xl font-bold text-emerald-600">1,400本<span class="text-sm text-gray-500 font-normal ml-2">/日</span></div>
+                        <p class="text-xs text-emerald-700 mt-2">技術指導導入により、さらなる増産と販路拡大へ</p>
+                    </div>
+                    <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-xl border border-blue-100">
+                        <h4 class="text-blue-800 font-bold mb-1">付加価値額向上</h4>
+                        <div class="text-3xl font-bold text-blue-600">+15%<span class="text-sm text-gray-500 font-normal ml-2">（5年後）</span></div>
+                        <p class="text-xs text-blue-700 mt-2">生産効率化と機会損失ゼロ化による収益構造改革</p>
+                    </div>
+                    
+                    <!-- Subsidy Calculator Component -->
+                    <div class="bg-white p-6 rounded-xl border-2 border-dashed border-orange-300">
+                        <h4 class="font-bold text-gray-800 mb-3 flex items-center gap-2">
+                            <span>🧮</span> 補助金額 概算
+                        </h4>
+                        <div class="space-y-3">
+                            <div>
+                                <label class="text-xs text-gray-500 block mb-1">対象経費（税抜）</label>
+                                <input type="text" value="47,855,000" disabled class="w-full bg-gray-100 border border-gray-300 rounded px-3 py-2 text-right font-mono text-gray-600">
+                            </div>
+                            <div>
+                                <label class="text-xs text-gray-500 block mb-1">補助率を選択</label>
+                                <select id="subsidy-rate" class="w-full bg-white border border-orange-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500">
+                                    <option value="0.5">通常枠 (1/2)</option>
+                                    <option value="0.666">省力化/賃上げ枠 (2/3)</option>
+                                </select>
+                            </div>
+                            <div class="pt-2 border-t border-gray-100 mt-2">
+                                <label class="text-xs text-gray-500 block">補助金見込額</label>
+                                <div id="subsidy-result" class="text-2xl font-bold text-rose-600 text-right font-mono">¥23,927,500</div>
+                                <p class="text-[10px] text-gray-400 mt-1">※実際の上限額は申請枠により異なります。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final CTA/Footer -->
+        <footer class="text-center py-12 border-t border-orange-200 mt-12 bg-orange-50">
+            <div class="max-w-4xl mx-auto px-4">
+                <h3 class="text-xl font-bold text-orange-900 mb-2">有限会社亀屋（かめぱん）</h3>
+                <p class="text-gray-500 text-sm mb-6">東京都墨田区立花 | 創業1952年 (74年目)</p>
+                <div class="text-xs text-gray-400 space-y-1">
+                    <p>※本ページは「ものづくり補助金」申請に向けた事業計画の草案ビジュアライザーです。</p>
+                    <p>※数値は提供された見積書および概算シミュレーションに基づいています。</p>
+                </div>
+            </div>
+        </footer>
+
+    </main>
+
+    <!-- JavaScript Logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- 1. Bottleneck Chart (Bar Chart) ---
+            const bottleneckCtx = document.getElementById('bottleneckChart').getContext('2d');
+            
+            // Data definitions
+            // Scenario 1: Current (Limit 750)
+            const currentData = [1200, 750, 750]; // Demand, Baking, Dough
+            
+            // Scenario 2: After Investment (1200)
+            const futureData = [1200, 1200, 1200]; // Demand, Baking, Dough (Improved)
+
+            // Scenario 3: Vision (1400 + Expansion)
+            const visionData = [1400, 1400, 1400]; // Demand(Expanded), Baking, Dough
+
+            const bottleneckChart = new Chart(bottleneckCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['市場需要（潜在）', '焼成・製造能力', '供給可能数'],
+                    datasets: [{
+                        label: '個数/日',
+                        data: currentData,
+                        backgroundColor: [
+                            'rgba(200, 200, 200, 0.5)', // Demand
+                            'rgba(244, 63, 94, 0.8)',   // Capacity (Red = Bottleneck)
+                            'rgba(244, 63, 94, 0.8)'    // Output
+                        ],
+                        borderColor: [
+                            'rgba(200, 200, 200, 1)',
+                            'rgba(244, 63, 94, 1)',
+                            'rgba(244, 63, 94, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        title: { display: true, text: '立花店 生産能力シミュレーション' },
+                        annotation: {
+                            annotations: {
+                                line1: {
+                                    type: 'line',
+                                    yMin: 750,
+                                    yMax: 750,
+                                    borderColor: 'rgba(50, 50, 50, 0.5)',
+                                    borderWidth: 1,
+                                    borderDash: [5, 5],
+                                    label: {
+                                        content: '現状限界 (750)',
+                                        enabled: true,
+                                        position: 'start',
+                                        backgroundColor: 'rgba(0,0,0,0.7)'
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 1600,
+                            title: { display: true, text: '製造本数（日）' }
+                        }
+                    }
+                }
+            });
+
+            // Interaction Logic for Bottleneck Chart
+            const btnCurrent = document.getElementById('btn-current');
+            const btnFuture = document.getElementById('btn-future');
+            const btnVision = document.getElementById('btn-vision');
+            
+            const statusPanel = document.getElementById('status-panel');
+            const statusTitle = document.getElementById('status-title');
+            const statusDesc = document.getElementById('status-desc');
+            const metricProd = document.getElementById('metric-production');
+            const metricGap = document.getElementById('metric-gap');
+            const insightBadge = document.getElementById('insight-badge');
+
+            const resetButtons = () => {
+                [btnCurrent, btnFuture, btnVision].forEach(btn => {
+                    btn.className = 'px-6 py-3 rounded-full font-bold transition-all border border-gray-200 bg-white text-gray-600 hover:bg-gray-100';
+                });
+            };
+
+            // SCENARIO 1: CURRENT
+            btnCurrent.addEventListener('click', () => {
+                resetButtons();
+                btnCurrent.className = 'px-6 py-3 rounded-full font-bold bg-gray-600 text-white shadow-md';
+                
+                bottleneckChart.data.datasets[0].data = currentData;
+                bottleneckChart.data.datasets[0].backgroundColor = ['rgba(200,200,200,0.5)', 'rgba(244,63,94,0.8)', 'rgba(244,63,94,0.8)'];
+                bottleneckChart.data.datasets[0].borderColor = ['rgba(200,200,200,1)', 'rgba(244,63,94,1)', 'rgba(244,63,94,1)'];
+                bottleneckChart.update();
+
+                statusPanel.className = 'bg-white rounded-xl p-6 border-l-8 border-gray-400 shadow-sm transition-all duration-300';
+                statusTitle.innerText = "現状：750本の壁";
+                statusTitle.className = "text-xl font-bold text-gray-800 mb-2";
+                statusDesc.innerText = "向島店の成功とは対照的に、立花店では旧式設備のため日産750本が物理的限界です。顧客の需要に対し製造が追いつかず、機会損失が常態化しています。";
+                metricProd.innerText = "750本/日";
+                metricGap.innerText = "不足";
+                metricGap.className = "text-xl font-bold text-rose-600";
+                insightBadge.innerHTML = '<span>💡</span><span>立花店の設備刷新が急務です</span>';
+                insightBadge.className = "bg-amber-100 text-amber-800 text-xs font-bold px-4 py-2 rounded-lg flex items-center gap-2";
+            });
+
+            // SCENARIO 2: FUTURE (Investment)
+            btnFuture.addEventListener('click', () => {
+                resetButtons();
+                btnFuture.className = 'px-6 py-3 rounded-full font-bold bg-rose-600 text-white shadow-md';
+
+                bottleneckChart.data.datasets[0].data = futureData;
+                bottleneckChart.data.datasets[0].backgroundColor = ['rgba(200,200,200,0.5)', 'rgba(16,185,129,0.8)', 'rgba(16,185,129,0.8)'];
+                bottleneckChart.data.datasets[0].borderColor = ['rgba(200,200,200,1)', 'rgba(16,185,129,1)', 'rgba(16,185,129,1)'];
+                bottleneckChart.update();
+
+                statusPanel.className = 'bg-white rounded-xl p-6 border-l-8 border-rose-500 shadow-sm transition-all duration-300';
+                statusTitle.innerText = "導入後：1,200本体制確立";
+                statusTitle.className = "text-xl font-bold text-rose-700 mb-2";
+                statusDesc.innerText = "高性能オーブンと生地システム導入により、製造能力が約1.6倍に拡大。現在の需要を満たし、機会損失を解消します。";
+                metricProd.innerText = "1,200本/日";
+                metricGap.innerText = "充足";
+                metricGap.className = "text-xl font-bold text-emerald-600";
+                insightBadge.innerHTML = '<span>🚀</span><span>需要を完全にカバー可能です</span>';
+                insightBadge.className = "bg-rose-100 text-rose-800 text-xs font-bold px-4 py-2 rounded-lg flex items-center gap-2";
+            });
+
+            // SCENARIO 3: VISION
+            btnVision.addEventListener('click', () => {
+                resetButtons();
+                btnVision.className = 'px-6 py-3 rounded-full font-bold bg-blue-600 text-white shadow-md';
+
+                bottleneckChart.data.datasets[0].data = visionData;
+                bottleneckChart.data.datasets[0].backgroundColor = ['rgba(59,130,246,0.2)', 'rgba(59,130,246,0.8)', 'rgba(59,130,246,0.8)'];
+                bottleneckChart.data.datasets[0].borderColor = ['rgba(59,130,246,1)', 'rgba(59,130,246,1)', 'rgba(59,130,246,1)'];
+                bottleneckChart.update();
+
+                statusPanel.className = 'bg-white rounded-xl p-6 border-l-8 border-blue-500 shadow-sm transition-all duration-300';
+                statusTitle.innerText = "将来像：1,400本＋販路拡大";
+                statusTitle.className = "text-xl font-bold text-blue-700 mb-2";
+                statusDesc.innerText = "技術指導の導入により、さらなる効率化を実現し1,400本/日を目指します。余剰能力を活用し、新たな販路拡大へ挑戦します。";
+                metricProd.innerText = "1,400本/日";
+                metricGap.innerText = "拡大";
+                metricGap.className = "text-xl font-bold text-blue-600";
+                insightBadge.innerHTML = '<span>🌟</span><span>技術指導でさらなる高みへ</span>';
+                insightBadge.className = "bg-blue-100 text-blue-800 text-xs font-bold px-4 py-2 rounded-lg flex items-center gap-2";
+            });
+
+            // Initial State
+            btnCurrent.click();
+
+
+            // --- 2. Growth Chart (Line Chart) ---
+            const growthCtx = document.getElementById('growthChart').getContext('2d');
+            
+            new Chart(growthCtx, {
+                type: 'line',
+                data: {
+                    labels: ['現在', '1年後', '2年後', '3年後', '4年後', '5年後'],
+                    datasets: [
+                        {
+                            label: '生産・販売能力 (本/日)',
+                            data: [750, 1200, 1250, 1300, 1350, 1400],
+                            borderColor: 'rgba(244, 63, 94, 1)', // Rose
+                            backgroundColor: 'rgba(244, 63, 94, 0.1)',
+                            yAxisID: 'y',
+                            fill: true,
+                            tension: 0.3
+                        },
+                        {
+                            label: '売上高指数 (基準=100)',
+                            data: [100, 160, 165, 170, 180, 190], // Roughly proportional to capacity
+                            borderColor: 'rgba(234, 88, 12, 1)', // Orange
+                            borderDash: [5, 5],
+                            yAxisID: 'y1',
+                            tension: 0.3
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: { display: true, text: '事業計画：生産能力と売上の相関成長' },
+                        tooltip: { mode: 'index', intersect: false }
+                    },
+                    scales: {
+                        y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            title: { display: true, text: '生産能力 (本)' },
+                            suggestedMax: 1500
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            title: { display: true, text: '売上指数' },
+                            grid: { drawOnChartArea: false }
+                        }
+                    }
+                }
+            });
+
+            // --- 3. Subsidy Calculator ---
+            const totalInvestment = 47855000;
+            const rateSelect = document.getElementById('subsidy-rate');
+            const resultDisplay = document.getElementById('subsidy-result');
+
+            function calcSubsidy() {
+                const rate = parseFloat(rateSelect.value);
+                let amount = Math.floor(totalInvestment * rate);
+                
+                // Format currency
+                const formatter = new Intl.NumberFormat('ja-JP', {
+                    style: 'currency',
+                    currency: 'JPY'
+                });
+                resultDisplay.innerText = formatter.format(amount);
+            }
+
+            rateSelect.addEventListener('change', calcSubsidy);
+            calcSubsidy(); // Initial calc
+            
+            // --- 4. Smooth Scroll for Nav ---
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
